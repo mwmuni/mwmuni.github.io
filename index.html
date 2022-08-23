@@ -1,1 +1,32 @@
-Hello World
+<link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+<script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+
+<py-env>
+    - qrcode
+</py-env>
+
+<body>
+    <button id = "make_code" class = "btn btn-primary" type = "submit" pys-onClick="make_code">Make Code</button>
+    <div id="output_div" style="margin-top: 10px;margin-bottom: 10px;"></div>
+    <img src="output.png" alt="qr code" width="500" height="500">
+    
+    <py-script>
+        import qrcode
+        
+        def make_code():
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=4,
+            )
+            qr.add_data('Hello World')
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+            img.save("output.png")
+            output = Element("output_div")
+            output.write(img)
+            return img
+    </py-script>
+    
+</body>
